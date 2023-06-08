@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
-
-namespace backend_upc_5_2023.Dominio
+﻿namespace backend_upc_5_2023.Dominio
 {
     public class DBManager
     {
@@ -30,32 +27,5 @@ namespace backend_upc_5_2023.Dominio
             get; set;
         }
 
-
-        public List<Categoria> ExecuteReader(string commandText)
-        {
-            DataTable dataTable = new DataTable();
-            using (SqlConnection pgSqlConnection = new
-            SqlConnection(ConnectionString))
-            using (SqlCommand pgSqlCommand = new SqlCommand())
-            {
-                pgSqlCommand.CommandText = commandText;
-                pgSqlCommand.Connection = pgSqlConnection;
-                if (pgSqlConnection.State != ConnectionState.Open)
-                    pgSqlConnection.Open();
-                SqlDataAdapter pgSqlDataAdapter = new
-                   SqlDataAdapter(pgSqlCommand);
-
-                pgSqlDataAdapter.Fill(dataTable);
-
-                var ListofUtilizator = dataTable.AsEnumerable().Select(r =>
-                new Categoria
-                {
-                    Id = r.Field<int>("ID"),
-                    Nombre = r.Field<string>("NOMBRE")
-                }).ToList();
-
-                return ListofUtilizator;
-            }
-        }
     }
 }

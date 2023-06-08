@@ -1,5 +1,7 @@
 ﻿using backend_upc_5_2023.Dominio;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
 {
@@ -17,11 +19,17 @@ namespace backend_upc_5_2023.Controllers
         }
 
         [HttpGet]
-        public List<Categoria> Get()
+        public IActionResult Get()
         {
-            DBManager.Instance.ConnectionString = connectionString;
-            var result = DBManager.Instance.ExecuteReader("select * from CATEGORIA");
-            return result;
+            var sql = "select * from CATEGORIA";
+            var listCategoria = new List<Categoria>();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                DefaultTypeMap.MatchNamesWithUnderscores = true;
+                listCategoria = connection.Query<Categoria>(sql).ToList();
+            }
+            return StatusCode(200, listCategoria);
         }
     }
 }
