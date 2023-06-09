@@ -47,7 +47,7 @@ namespace backend_upc_5_2023.Controllers
             try
             {
                 DBManager.Instance.ConnectionString = connectionString;
-                const string sql = "select * from CARRITO_COMPRA";
+                const string sql = "select * from CARRITO_COMPRA  WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<CarritoCompra>(sql);
                 return Ok(result);

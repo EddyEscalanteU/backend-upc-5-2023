@@ -45,7 +45,7 @@ namespace backend_upc_5_2023.Controllers
             try
             {
                 DBManager.Instance.ConnectionString = connectionString;
-                const string sql = "select * from Usuarios";
+                const string sql = "select * from Usuarios  WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<Usuarios>(sql);
                 return Ok(result);

@@ -73,7 +73,7 @@ namespace backend_upc_5_2023.Connection
         {
             using var connection = new SqlConnection(ConnectionString);
             connection.Open();
-            DefaultTypeMap.MatchNamesWithUnderscores = true;
+            DefaultTypeMap.MatchNamesWithUnderscores = true;//SnakeCase to CamelCase
             return connection.Execute(sql, dynamicParameters);
         }
 

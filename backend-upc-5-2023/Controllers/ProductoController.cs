@@ -1,6 +1,8 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -45,7 +47,7 @@ namespace backend_upc_5_2023.Controllers
             try
             {
                 DBManager.Instance.ConnectionString = connectionString;
-                const string sql = "select * from Producto";
+                const string sql = "SELECT * FROM PRODUCTO WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<Producto>(sql);
                 return Ok(result);
@@ -53,6 +55,66 @@ namespace backend_upc_5_2023.Controllers
             catch (Exception ex)
             {
                 //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddProducto")]
+        public IActionResult Insert(Producto producto)
+        {
+            try
+            {
+                const string sql = "INSERT INTO [dbo].[PRODUCTO]([NOMBRE], [ID_CATEGORIA]) VALUES (@Nombre, @IdCategoria) ";
+                var parameters = new DynamicParameters();
+                parameters.Add("Nombre", producto.Nombre, DbType.String);
+                parameters.Add("IdCategoria", producto.IdCategoria, DbType.Int64);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateProducto")]
+        public IActionResult Update(Producto producto)
+        {
+            try
+            {
+                const string sql = "UPDATE [dbo].[PRODUCTO] SET NOMBRE = @Nombre, ID_CATEGORIA = @IdCategoria WHERE ID = @Id";
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", producto.Id, DbType.Int64);
+                parameters.Add("NOMBRE", producto.Nombre, DbType.String);
+                parameters.Add("IdCategoria", producto.IdCategoria, DbType.Int64);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("DeleteProducto")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                const string sql = "UPDATE [dbo].[PRODUCTO] SET ESTADO_REGISTRO = 0 WHERE ID = @Id";
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", id, DbType.Int64);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, ex.Message);
             }
         }

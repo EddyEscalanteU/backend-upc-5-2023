@@ -13,7 +13,7 @@
         /// </value>
         public int Id { get; set; }
 
-        /// <summary>
+        /// <summary>m
         /// Gets or sets the cantidad.
         /// </summary>
         /// <value>
