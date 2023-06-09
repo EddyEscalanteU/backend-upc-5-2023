@@ -1,4 +1,6 @@
-﻿using backend_upc_5_2023.Connection;
+﻿// Ignore Spelling: Carrito
+
+using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -6,12 +8,12 @@ using System.Data.SqlClient;
 namespace backend_upc_5_2023.Controllers
 {
     /// <summary>
-    /// Servicios web para la entidad: <see cref="Usuarios"/>
+    /// Servicios web para la entidad: <see cref="CarritoCompra"/>
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosController : ControllerBase
+    public class CarritoCompraController : ControllerBase
     {
         #region Fields
         private readonly IConfiguration _configuration;
@@ -20,10 +22,10 @@ namespace backend_upc_5_2023.Controllers
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsuariosController"/> class.
+        /// Initializes a new instance of the <see cref="CarritoCompraController"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public UsuariosController(IConfiguration configuration)
+        public CarritoCompraController(IConfiguration configuration)
         {
             _configuration = configuration;
             connectionString =
@@ -45,9 +47,9 @@ namespace backend_upc_5_2023.Controllers
             try
             {
                 DBManager.Instance.ConnectionString = connectionString;
-                const string sql = "select * from Usuarios";
+                const string sql = "select * from CARRITO_COMPRA";
 
-                var result = DBManager.Instance.GetData<Usuarios>(sql);
+                var result = DBManager.Instance.GetData<CarritoCompra>(sql);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -3,9 +3,9 @@
 namespace backend_upc_5_2023.Dominio
 {
     /// <summary>
-    /// Dominio de la tabla Categoría
+    /// Dominio de la tabla Producto
     /// </summary>
-    public class Categoria
+    public class Producto
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -22,5 +22,13 @@ namespace backend_upc_5_2023.Dominio
         /// The nombre.
         /// </value>
         public string Nombre { get; set; }
+
+        /// <summary>
+        /// Gets or sets the identifier categoría.
+        /// </summary>
+        /// <value>
+        /// The identifier categoría.
+        /// </value>
+        public int IdCategoria { get; set; }
     }
 }
