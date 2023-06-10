@@ -28,5 +28,6 @@
         /// The identifier producto.
         /// </value>
         public int IdProducto { get; set; }
+        public int IdCarritoCompra { get; set; }
     }
 }

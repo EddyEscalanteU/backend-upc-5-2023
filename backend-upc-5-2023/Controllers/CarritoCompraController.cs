@@ -2,7 +2,9 @@
 
 using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -58,6 +60,65 @@ namespace backend_upc_5_2023.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetCarritoCompraById")]
+        public IActionResult GetCarritoCompraById(int Id)
+        {
+            try
+            {
+                string sql = "select * from CARRITO_COMPRA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", Id, DbType.Int64);
+
+                var result = DBManager.Instance.GetDataConParametros<CarritoCompra>(sql, parameters);
+
+                CarritoCompra carritoCompra = result.FirstOrDefault();
+
+                //////////////////////////////
+
+                if (carritoCompra != null)
+                {
+                    sql = "SELECT * FROM H_PRODUCTO WHERE ID_CARRITO_COMPRA = @IdCarritoCompra AND ESTADO_REGISTRO = 1";
+
+                    var parameters2 = new DynamicParameters();
+                    parameters2.Add("IdCarritoCompra", carritoCompra.Id, DbType.Int64);
+
+                    var result2 = DBManager.Instance.GetDataConParametros<HProducto>(sql, parameters2);
+
+                    carritoCompra.Productos = result2.ToList();
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddCarritoCompra")]
+        public IActionResult Insert(CarritoCompra carritoCompra)
+        {
+            try
+            {
+                const string sql = "INSERT INTO [dbo].[CARRITO_COMPRA]([FECHA], [ID_USUARIO]) VALUES (@Fecha, @IdUsuario) ";
+                var parameters = new DynamicParameters();
+                parameters.Add("Fecha", DateTime.Now, DbType.DateTime);
+                parameters.Add("IdUsuario", carritoCompra.IdUsuario, DbType.Int64);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         #endregion Methods
     }
 }

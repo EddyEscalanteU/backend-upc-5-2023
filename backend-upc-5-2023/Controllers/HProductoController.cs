@@ -1,6 +1,8 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -53,6 +55,28 @@ namespace backend_upc_5_2023.Controllers
             catch (Exception ex)
             {
                 //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddHProducto")]
+        public IActionResult Insert(HProducto hProducto)
+        {
+            try
+            {
+                const string sql = "INSERT INTO [dbo].[H_PRODUCTO]([CANTIDAD], [ID_PRODUCTO], [ID_CARRITO_COMPRA]) VALUES (@Cantidad, @IdProducto, @IdCarritoCompra) ";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("Cantidad", hProducto.Cantidad, DbType.Int64);
+                parameters.Add("IdProducto", hProducto.IdProducto, DbType.Int64);
+                parameters.Add("IdCarritoCompra", hProducto.IdCarritoCompra, DbType.Int64);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, ex.Message);
             }
         }

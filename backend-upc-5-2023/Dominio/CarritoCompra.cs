@@ -16,14 +16,6 @@ namespace backend_upc_5_2023.Dominio
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the identifier h producto.
-        /// </summary>
-        /// <value>
-        /// The identifier h producto.
-        /// </value>
-        public int IdHProducto { get; set; }
-
-        /// <summary>
         /// Gets or sets the identifier usuario.
         /// </summary>
         /// <value>
@@ -38,5 +30,7 @@ namespace backend_upc_5_2023.Dominio
         /// The fecha.
         /// </value>
         public DateTime Fecha { get; set; }
+
+        public List<HProducto> Productos { get; set; }
     }
 }
