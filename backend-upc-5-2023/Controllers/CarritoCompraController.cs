@@ -30,6 +30,7 @@ namespace backend_upc_5_2023.Controllers
             _configuration = configuration;
             connectionString =
             _configuration["SqlConnectionString:DefaultConnection"];
+            DBManager.Instance.ConnectionString = connectionString;
         }
 
         #endregion Constructors
@@ -46,7 +47,6 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                DBManager.Instance.ConnectionString = connectionString;
                 const string sql = "select * from CARRITO_COMPRA  WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<CarritoCompra>(sql);

@@ -30,6 +30,7 @@ namespace backend_upc_5_2023.Controllers
             _configuration = configuration;
             connectionString =
             _configuration["SqlConnectionString:DefaultConnection"];
+            DBManager.Instance.ConnectionString = connectionString;
         }
 
         #endregion Constructors
@@ -46,10 +47,47 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                DBManager.Instance.ConnectionString = connectionString;
                 const string sql = "SELECT * FROM PRODUCTO WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<Producto>(sql);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetProductoById")]
+        public IActionResult GetProductoById(int Id)
+        {
+            try
+            {
+                string sql = "SELECT * FROM PRODUCTO WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", Id, DbType.Int64);
+
+                var result = DBManager.Instance.GetDataConParametros<Producto>(sql, parameters);
+
+                Producto producto = result.FirstOrDefault();
+
+                //////////////////////////////
+
+                if (producto != null)
+                {
+                    sql = "SELECT * FROM CATEGORIA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+                    var parameters2 = new DynamicParameters();
+                    parameters2.Add("ID", producto.IdCategoria, DbType.Int64);
+
+                    var result2 = DBManager.Instance.GetDataConParametros<Categoria>(sql, parameters2);
+
+                    producto.Categoria = result2.FirstOrDefault();
+                }
+
                 return Ok(result);
             }
             catch (Exception ex)

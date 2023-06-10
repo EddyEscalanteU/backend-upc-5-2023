@@ -32,6 +32,7 @@ namespace backend_upc_5_2023.Controllers
             _configuration = configuration;
             connectionString =
             _configuration["SqlConnectionString:DefaultConnection"];
+            DBManager.Instance.ConnectionString = connectionString;
         }
 
         #endregion Constructors
@@ -48,7 +49,6 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                DBManager.Instance.ConnectionString = connectionString;
                 const string sql = "SELECT * FROM CATEGORIA WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<Categoria>(sql);
@@ -56,6 +56,27 @@ namespace backend_upc_5_2023.Controllers
             }
             catch (Exception ex)
             {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCategoriaById")]
+        public IActionResult GetCategoriaById(int Id)
+        {
+            try
+            {
+                const string sql = "SELECT * FROM CATEGORIA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", Id, DbType.Int64);
+
+                var result = DBManager.Instance.GetDataConParametros<Categoria>(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //log error
                 return StatusCode(500, ex.Message);
             }
         }

@@ -61,6 +61,14 @@ namespace backend_upc_5_2023.Connection
             return connection.Query<T>(sql);
         }
 
+        public IEnumerable<T> GetDataConParametros<T>(string sql, DynamicParameters dynamicParameters)
+        {
+            using var connection = new SqlConnection(ConnectionString);
+            connection.Open();
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
+            return connection.Query<T>(sql, dynamicParameters);
+        }
+
         /// <summary>
         /// Sets the data.
         /// </summary>

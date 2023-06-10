@@ -1,6 +1,8 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -28,6 +30,7 @@ namespace backend_upc_5_2023.Controllers
             _configuration = configuration;
             connectionString =
             _configuration["SqlConnectionString:DefaultConnection"];
+            DBManager.Instance.ConnectionString = connectionString;
         }
 
         #endregion Constructors
@@ -44,8 +47,7 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                DBManager.Instance.ConnectionString = connectionString;
-                const string sql = "select * from Usuarios  WHERE ESTADO_REGISTRO = 1";
+                const string sql = "select * from USUARIOS  WHERE ESTADO_REGISTRO = 1";
 
                 var result = DBManager.Instance.GetData<Usuarios>(sql);
                 return Ok(result);
@@ -56,6 +58,50 @@ namespace backend_upc_5_2023.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("GetUsuarioById")]
+        public IActionResult GetUsuarioById(int Id)
+        {
+            try
+            {
+                const string sql = "SELECT * FROM USUARIOS WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("ID", Id, DbType.Int64);
+
+                var result = DBManager.Instance.GetDataConParametros<Usuarios>(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddUsuario")]
+        public IActionResult Insert(Usuarios usuarios)
+        {
+            try
+            {
+                const string sql = "INSERT INTO [dbo].[USUARIOS]([USER_NAME], [NOMBRE_COMPLETO], [PASSWORD]) VALUES (@UserName, @NombreCompleto, @Password) ";
+
+                var parameters = new DynamicParameters();
+                parameters.Add("UserName", usuarios.UserName, DbType.String);
+                parameters.Add("NombreCompleto", usuarios.NombreCompleto, DbType.String);
+                parameters.Add("Password", usuarios.Password, DbType.String);
+
+                var result = DBManager.Instance.SetData(sql, parameters);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         #endregion Methods
     }
 }
