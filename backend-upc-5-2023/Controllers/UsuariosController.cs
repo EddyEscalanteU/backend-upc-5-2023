@@ -1,8 +1,7 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
-using Dapper;
+using backend_upc_5_2023.Servicios;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -47,53 +46,47 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "select * from USUARIOS  WHERE ESTADO_REGISTRO = 1";
-
-                var result = DBManager.Instance.GetData<Usuarios>(sql);
+                var result = UsuariosServicios.Get<Usuarios>();
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Gets the usuario by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("GetUsuarioById")]
-        public IActionResult GetUsuarioById(int Id)
+        [Route("GetById")]
+        public IActionResult GetUsuarioById(int id)
         {
             try
             {
-                const string sql = "SELECT * FROM USUARIOS WHERE ID = @Id AND ESTADO_REGISTRO = 1";
-
-                var parameters = new DynamicParameters();
-                parameters.Add("ID", Id, DbType.Int64);
-
-                var result = DBManager.Instance.GetDataConParametros<Usuarios>(sql, parameters);
+                var result = UsuariosServicios.GetById<Usuarios>(id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Inserts the specified usuarios.
+        /// </summary>
+        /// <param name="usuarios">The usuarios.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddUsuario")]
         public IActionResult Insert(Usuarios usuarios)
         {
             try
             {
-                const string sql = "INSERT INTO [dbo].[USUARIOS]([USER_NAME], [NOMBRE_COMPLETO], [PASSWORD]) VALUES (@UserName, @NombreCompleto, @Password) ";
-
-                var parameters = new DynamicParameters();
-                parameters.Add("UserName", usuarios.UserName, DbType.String);
-                parameters.Add("NombreCompleto", usuarios.NombreCompleto, DbType.String);
-                parameters.Add("Password", usuarios.Password, DbType.String);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = UsuariosServicios.Insert(usuarios);
                 return Ok(result);
             }
             catch (Exception ex)

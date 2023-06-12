@@ -1,8 +1,7 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
-using Dapper;
+using backend_upc_5_2023.Servicios;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -21,6 +20,7 @@ namespace backend_upc_5_2023.Controllers
         #endregion Fields
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HProductoController"/> class.
         /// </summary>
@@ -47,32 +47,27 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "select * from H_PRODUCTO  WHERE ESTADO_REGISTRO = 1";
-
-                var result = DBManager.Instance.GetData<HProducto>(sql);
+                var result = HProductoServicios.Get<HProducto>();
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Inserts the specified h producto.
+        /// </summary>
+        /// <param name="hProducto">The h producto.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddHProducto")]
         public IActionResult Insert(HProducto hProducto)
         {
             try
             {
-                const string sql = "INSERT INTO [dbo].[H_PRODUCTO]([CANTIDAD], [ID_PRODUCTO], [ID_CARRITO_COMPRA]) VALUES (@Cantidad, @IdProducto, @IdCarritoCompra) ";
-
-                var parameters = new DynamicParameters();
-                parameters.Add("Cantidad", hProducto.Cantidad, DbType.Int64);
-                parameters.Add("IdProducto", hProducto.IdProducto, DbType.Int64);
-                parameters.Add("IdCarritoCompra", hProducto.IdCarritoCompra, DbType.Int64);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = HProductoServicios.Insert(hProducto);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -80,6 +75,7 @@ namespace backend_upc_5_2023.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         #endregion Methods
     }
 }

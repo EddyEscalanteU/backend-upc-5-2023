@@ -2,9 +2,8 @@
 
 using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
-using Dapper;
+using backend_upc_5_2023.Servicios;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace backend_upc_5_2023.Controllers
 {
@@ -49,9 +48,7 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "SELECT * FROM CATEGORIA WHERE ESTADO_REGISTRO = 1";
-
-                var result = DBManager.Instance.GetData<Categoria>(sql);
+                var result = CategoriaServicios.Get<Categoria>();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -60,23 +57,22 @@ namespace backend_upc_5_2023.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the categoria by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetCategoriaById")]
-        public IActionResult GetCategoriaById(int Id)
+        public IActionResult GetCategoriaById(int id)
         {
             try
             {
-                const string sql = "SELECT * FROM CATEGORIA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
-
-                var parameters = new DynamicParameters();
-                parameters.Add("ID", Id, DbType.Int64);
-
-                var result = DBManager.Instance.GetDataConParametros<Categoria>(sql, parameters);
+                var result = CategoriaServicios.GetById<Categoria>(id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
@@ -92,11 +88,7 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "INSERT INTO [dbo].[CATEGORIA]([NOMBRE]) VALUES (@Nombre) ";
-                var parameters = new DynamicParameters();
-                parameters.Add("Nombre", categoria.Nombre, DbType.String);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = CategoriaServicios.Insert(categoria);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -116,12 +108,7 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "UPDATE [dbo].[CATEGORIA] SET NOMBRE = @Nombre WHERE ID = @Id";
-                var parameters = new DynamicParameters();
-                parameters.Add("ID", categoria.Id, DbType.Int64);
-                parameters.Add("NOMBRE", categoria.Nombre, DbType.String);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = CategoriaServicios.Update(categoria);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -141,11 +128,7 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "UPDATE [dbo].[CATEGORIA] SET ESTADO_REGISTRO = 0 WHERE ID = @Id";
-                var parameters = new DynamicParameters();
-                parameters.Add("ID", id, DbType.Int64);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = CategoriaServicios.Delete(id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -153,6 +136,7 @@ namespace backend_upc_5_2023.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         #endregion Methods
     }
 }

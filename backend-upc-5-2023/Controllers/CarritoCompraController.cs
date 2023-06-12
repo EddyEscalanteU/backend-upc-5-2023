@@ -2,9 +2,8 @@
 
 using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
-using Dapper;
+using backend_upc_5_2023.Servicios;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Data.SqlClient;
 
 namespace backend_upc_5_2023.Controllers
@@ -49,68 +48,47 @@ namespace backend_upc_5_2023.Controllers
         {
             try
             {
-                const string sql = "select * from CARRITO_COMPRA  WHERE ESTADO_REGISTRO = 1";
-
-                var result = DBManager.Instance.GetData<CarritoCompra>(sql);
+                var result = CarritoCompraServicios.Get<CarritoCompra>();
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Gets the carrito compra by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("GetCarritoCompraById")]
-        public IActionResult GetCarritoCompraById(int Id)
+        public IActionResult GetCarritoCompraById(int id)
         {
             try
             {
-                string sql = "select * from CARRITO_COMPRA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
-
-                var parameters = new DynamicParameters();
-                parameters.Add("ID", Id, DbType.Int64);
-
-                var result = DBManager.Instance.GetDataConParametros<CarritoCompra>(sql, parameters);
-
-                CarritoCompra carritoCompra = result.FirstOrDefault();
-
-                //////////////////////////////
-
-                if (carritoCompra != null)
-                {
-                    sql = "SELECT * FROM H_PRODUCTO WHERE ID_CARRITO_COMPRA = @IdCarritoCompra AND ESTADO_REGISTRO = 1";
-
-                    var parameters2 = new DynamicParameters();
-                    parameters2.Add("IdCarritoCompra", carritoCompra.Id, DbType.Int64);
-
-                    var result2 = DBManager.Instance.GetDataConParametros<HProducto>(sql, parameters2);
-
-                    carritoCompra.Productos = result2.ToList();
-                }
-
+                var result = CarritoCompraServicios.GetById(id);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                //log error
                 return StatusCode(500, ex.Message);
             }
         }
 
+        /// <summary>
+        /// Inserts the specified carrito compra.
+        /// </summary>
+        /// <param name="carritoCompra">The carrito compra.</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("AddCarritoCompra")]
         public IActionResult Insert(CarritoCompra carritoCompra)
         {
             try
             {
-                const string sql = "INSERT INTO [dbo].[CARRITO_COMPRA]([FECHA], [ID_USUARIO]) VALUES (@Fecha, @IdUsuario) ";
-                var parameters = new DynamicParameters();
-                parameters.Add("Fecha", DateTime.Now, DbType.DateTime);
-                parameters.Add("IdUsuario", carritoCompra.IdUsuario, DbType.Int64);
-
-                var result = DBManager.Instance.SetData(sql, parameters);
+                var result = CarritoCompraServicios.Insert(carritoCompra);
                 return Ok(result);
             }
             catch (Exception ex)
