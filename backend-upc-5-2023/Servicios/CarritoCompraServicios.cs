@@ -20,7 +20,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static IEnumerable<T> Get<T>()
         {
-            const string sql = "SELECT * FROM CARRITO_COMPRA  WHERE ESTADO_REGISTRO = 1";
+            const string sql = "SELECT * FROM CARRITO_COMPRA WHERE ESTADO_REGISTRO = 1";
 
             return DBManager.Instance.GetData<T>(sql);
         }
@@ -69,7 +69,7 @@ namespace backend_upc_5_2023.Servicios
             if (carritoCompra != null)
             {
                 var enumerableHProducto = HProductoServicios.GetByIdCarritoCompra(carritoCompra.Id);
-                //var listHProducto = new List<HProducto>();
+
                 foreach (var item in enumerableHProducto)
                 {
                     item.Producto = ProductoServicios.GetById(item.IdProducto);
