@@ -57,6 +57,26 @@ namespace backend_upc_5_2023.Controllers
         }
 
         /// <summary>
+        /// Gets the h producto by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetHProductoById")]
+        public IActionResult GetHProductoById(int id)
+        {
+            try
+            {
+                var result = HProductoServicios.GetById(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Inserts the specified h producto.
         /// </summary>
         /// <param name="hProducto">The h producto.</param>

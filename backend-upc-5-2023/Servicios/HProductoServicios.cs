@@ -26,6 +26,49 @@ namespace backend_upc_5_2023.Servicios
         }
 
         /// <summary>
+        /// Gets the by identifier.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public static HProducto GetById(int id)
+        {
+            const string sql = "SELECT * FROM H_PRODUCTO WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", id, DbType.Int64);
+
+            var result = DBManager.Instance.GetDataConParametros<HProducto>(sql, parameters);
+
+            HProducto hProducto = result.FirstOrDefault();
+
+            if (hProducto != null)
+            {
+                hProducto.Producto = ProductoServicios.GetById(hProducto.IdProducto);
+                hProducto.CarritoCompra = CarritoCompraServicios.GetById(hProducto.IdCarritoCompra);
+            }
+
+            return result.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the by identifier carrito compra.
+        /// </summary>
+        /// <param name="idCarritoCompra">The identifier carrito compra.</param>
+        /// <returns></returns>
+        public static IEnumerable<HProducto> GetByIdCarritoCompra(int idCarritoCompra)
+        {
+            const string sql = "SELECT * FROM H_PRODUCTO WHERE ID_CARRITO_COMPRA = @idCarritoCompra AND ESTADO_REGISTRO = 1";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("idCarritoCompra", idCarritoCompra, DbType.Int64);
+
+            var result = DBManager.Instance.GetDataConParametros<HProducto>(sql, parameters);
+
+            return result;
+        }
+
+        /// <summary>
         /// Inserts the specified h producto.
         /// </summary>
         /// <param name="hProducto">The h producto.</param>
@@ -33,7 +76,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static int Insert(HProducto hProducto)
         {
-            const string sql = "INSERT INTO [H_PRODUCTO]([CANTIDAD], [ID_PRODUCTO], [ID_CARRITO_COMPRA]) VALUES (@Cantidad, @IdProducto, @IdCarritoCompra) ";
+            const string sql = "INSERT INTO H_PRODUCTO([CANTIDAD], [ID_PRODUCTO], [ID_CARRITO_COMPRA]) VALUES (@Cantidad, @IdProducto, @IdCarritoCompra) ";
 
             var parameters = new DynamicParameters();
             parameters.Add("Cantidad", hProducto.Cantidad, DbType.Int64);

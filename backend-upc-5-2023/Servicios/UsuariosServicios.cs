@@ -51,7 +51,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static int Insert(Usuarios usuarios)
         {
-            const string sql = "INSERT INTO [USUARIOS]([USER_NAME], [NOMBRE_COMPLETO], [PASSWORD]) VALUES (@UserName, @NombreCompleto, @Password) ";
+            const string sql = "INSERT INTO USUARIOS([USER_NAME], [NOMBRE_COMPLETO], [PASSWORD]) VALUES (@UserName, @NombreCompleto, @Password) ";
 
             var parameters = new DynamicParameters();
             parameters.Add("UserName", usuarios.UserName, DbType.String);

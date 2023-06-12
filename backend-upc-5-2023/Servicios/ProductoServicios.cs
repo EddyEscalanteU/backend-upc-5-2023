@@ -31,27 +31,18 @@ namespace backend_upc_5_2023.Servicios
         /// <returns></returns>
         public static Producto GetById(int id)
         {
-            string sql = "SELECT * FROM PRODUCTO WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+            const string sql = "SELECT * FROM PRODUCTO WHERE ID = @Id AND ESTADO_REGISTRO = 1";
 
             var parameters = new DynamicParameters();
-            parameters.Add("ID", id, DbType.Int64);
+            parameters.Add("Id", id, DbType.Int64);
 
             var result = DBManager.Instance.GetDataConParametros<Producto>(sql, parameters);
 
             Producto producto = result.FirstOrDefault();
 
-            //////////////////////////////
-
             if (producto != null)
             {
-                sql = "SELECT * FROM CATEGORIA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
-
-                var parameters2 = new DynamicParameters();
-                parameters2.Add("ID", producto.IdCategoria, DbType.Int64);
-
-                var result2 = DBManager.Instance.GetDataConParametros<Categoria>(sql, parameters2);
-
-                producto.Categoria = result2.FirstOrDefault();
+                producto.Categoria = CategoriaServicios.GetById<Categoria>(producto.IdCategoria);
             }
 
             return result.FirstOrDefault();
@@ -86,8 +77,8 @@ namespace backend_upc_5_2023.Servicios
             const string sql = "UPDATE [PRODUCTO] SET NOMBRE = @Nombre, ID_CATEGORIA = @IdCategoria WHERE ID = @Id";
 
             var parameters = new DynamicParameters();
-            parameters.Add("ID", producto.Id, DbType.Int64);
-            parameters.Add("NOMBRE", producto.Nombre, DbType.String);
+            parameters.Add("Id", producto.Id, DbType.Int64);
+            parameters.Add("Nombre", producto.Nombre, DbType.String);
             parameters.Add("IdCategoria", producto.IdCategoria, DbType.Int64);
 
             var result = DBManager.Instance.SetData(sql, parameters);

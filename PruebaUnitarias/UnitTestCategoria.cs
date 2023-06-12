@@ -5,7 +5,6 @@ namespace PruebaUnitarias
         [Fact]
         public void Verificar_InsertarCategoria_RegresaFilasAfectadas()
         {
-
         }
     }
 }

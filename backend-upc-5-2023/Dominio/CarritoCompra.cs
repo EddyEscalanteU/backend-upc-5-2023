@@ -31,6 +31,20 @@ namespace backend_upc_5_2023.Dominio
         /// </value>
         public DateTime Fecha { get; set; }
 
+        /// <summary>
+        /// Gets or sets the productos.
+        /// </summary>
+        /// <value>
+        /// The productos.
+        /// </value>
         public List<HProducto> Productos { get; set; }
+
+        /// <summary>
+        /// Gets or sets the usuarios.
+        /// </summary>
+        /// <value>
+        /// The usuarios.
+        /// </value>
+        public Usuarios Usuarios { get; set; }
     }
 }

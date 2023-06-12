@@ -33,7 +33,7 @@ namespace backend_upc_5_2023.Servicios
         /// <returns></returns>
         public static CarritoCompra GetById(int id)
         {
-            string sql = "SELECT * FROM CARRITO_COMPRA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+            const string sql = "SELECT * FROM CARRITO_COMPRA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
 
             var parameters = new DynamicParameters();
             parameters.Add("ID", id, DbType.Int64);
@@ -42,18 +42,40 @@ namespace backend_upc_5_2023.Servicios
 
             CarritoCompra carritoCompra = result.FirstOrDefault();
 
-            //////////////////////////////
+            if (carritoCompra != null)
+            {
+                carritoCompra.Usuarios = UsuariosServicios.GetById<Usuarios>(carritoCompra.IdUsuario);
+            }
+
+            return result.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the detalle by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public static CarritoCompra GetDetalleById(int id)
+        {
+            const string sql = "SELECT * FROM CARRITO_COMPRA WHERE ID = @Id AND ESTADO_REGISTRO = 1";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", id, DbType.Int64);
+
+            var result = DBManager.Instance.GetDataConParametros<CarritoCompra>(sql, parameters);
+
+            CarritoCompra carritoCompra = result.FirstOrDefault();
 
             if (carritoCompra != null)
             {
-                sql = "SELECT * FROM H_PRODUCTO WHERE ID_CARRITO_COMPRA = @IdCarritoCompra AND ESTADO_REGISTRO = 1";
+                var enumerableHProducto = HProductoServicios.GetByIdCarritoCompra(carritoCompra.Id);
+                //var listHProducto = new List<HProducto>();
+                foreach (var item in enumerableHProducto)
+                {
+                    item.Producto = ProductoServicios.GetById(item.IdProducto);
+                }
 
-                var parameters2 = new DynamicParameters();
-                parameters2.Add("IdCarritoCompra", carritoCompra.Id, DbType.Int64);
-
-                var result2 = DBManager.Instance.GetDataConParametros<HProducto>(sql, parameters2);
-
-                carritoCompra.Productos = result2.ToList();
+                carritoCompra.Productos = enumerableHProducto.ToList();
             }
 
             return result.FirstOrDefault();
@@ -67,7 +89,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static int Insert(CarritoCompra carritoCompra)
         {
-            const string sql = "INSERT INTO [CARRITO_COMPRA]([FECHA], [ID_USUARIO]) VALUES (@Fecha, @IdUsuario) ";
+            const string sql = "INSERT INTO CARRITO_COMPRA([FECHA], [ID_USUARIO]) VALUES (@Fecha, @IdUsuario) ";
             var parameters = new DynamicParameters();
             parameters.Add("Fecha", DateTime.Now, DbType.DateTime);
             parameters.Add("IdUsuario", carritoCompra.IdUsuario, DbType.Int64);
@@ -76,6 +98,5 @@ namespace backend_upc_5_2023.Servicios
 
             return result;
         }
-
     }
 }

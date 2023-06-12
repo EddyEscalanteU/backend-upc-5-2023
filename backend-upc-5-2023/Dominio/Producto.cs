@@ -31,6 +31,12 @@ namespace backend_upc_5_2023.Dominio
         /// </value>
         public int IdCategoria { get; set; }
 
+        /// <summary>
+        /// Gets or sets the categoria.
+        /// </summary>
+        /// <value>
+        /// The categoria.
+        /// </value>
         public Categoria Categoria { get; set; }
     }
 }

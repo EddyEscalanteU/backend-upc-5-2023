@@ -6,7 +6,7 @@ namespace backend_upc_5_2023.Connection
     /// <summary>
     /// Patron de diseño Singleton
     /// </summary>
-    public class DBManager
+    public sealed class DBManager
     {
         #region Fields
         private static readonly object lockObj = new();

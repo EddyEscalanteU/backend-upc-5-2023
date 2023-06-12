@@ -69,7 +69,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static int Update(Categoria categoria)
         {
-            const string sql = "UPDATE [CATEGORIA] SET NOMBRE = @Nombre WHERE ID = @Id";
+            const string sql = "UPDATE CATEGORIA SET NOMBRE = @Nombre WHERE ID = @Id";
 
             var parameters = new DynamicParameters();
             parameters.Add("ID", categoria.Id, DbType.Int64);
@@ -88,7 +88,7 @@ namespace backend_upc_5_2023.Servicios
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
         public static int Delete(int id)
         {
-            const string sql = "UPDATE [CATEGORIA] SET ESTADO_REGISTRO = 0 WHERE ID = @Id";
+            const string sql = "UPDATE CATEGORIA SET ESTADO_REGISTRO = 0 WHERE ID = @Id";
 
             var parameters = new DynamicParameters();
             parameters.Add("ID", id, DbType.Int64);

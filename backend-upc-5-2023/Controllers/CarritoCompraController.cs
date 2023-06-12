@@ -78,6 +78,26 @@ namespace backend_upc_5_2023.Controllers
         }
 
         /// <summary>
+        /// Gets the detalle by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetDetalleById")]
+        public IActionResult GetDetalleById(int id)
+        {
+            try
+            {
+                var result = CarritoCompraServicios.GetDetalleById(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Inserts the specified carrito compra.
         /// </summary>
         /// <param name="carritoCompra">The carrito compra.</param>
