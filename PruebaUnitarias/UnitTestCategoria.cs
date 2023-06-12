@@ -8,20 +8,22 @@ namespace PruebaUnitarias
     {
         public UnitTestCategoria()
         {
+            //utilizar otra BD (temporal)
             DBManager.Instance.ConnectionString = "workstation id=upc-database.mssql.somee.com;packet size=4096;user id=escalante_77_SQLLogin_4;pwd=l6yh7t1jfv;data source=upc-database.mssql.somee.com;persist security info=False;initial catalog=upc-database";
         }
+
         [Fact]
-        public void Verificar_GetCategoria_RegresaListado()
+        public void Categoria_Get_VerificarNotNull()
         {
-            var result = CategoriaServicios.Get<Categoria>();
+            var result = CategoriaServicios.Get<Categoria>();//un listado
             Assert.NotNull(result);
         }
 
         [Fact]
-        public void Verificar_GetByIdCategoria_RegresaItem()
+        public void Categoria_GetByIdCategoria_RegresaItem()
         {
             var result = CategoriaServicios.GetById<Categoria>(1);
-            Assert.NotNull(result);
+            Assert.Equal(1, result.Id);
         }
     }
 }
