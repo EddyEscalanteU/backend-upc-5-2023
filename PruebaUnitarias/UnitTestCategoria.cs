@@ -20,10 +20,41 @@ namespace PruebaUnitarias
         }
 
         [Fact]
-        public void Categoria_GetByIdCategoria_RegresaItem()
+        public void Categoria_GetById_RegresaItem()
         {
             var result = CategoriaServicios.GetById<Categoria>(1);
             Assert.Equal(1, result.Id);
+        }
+
+        [Fact]
+        public void Categoria_Insertar_RetornaUno()
+        {
+            Categoria categoria = new();
+            categoria.Nombre = "Categoria UnitTest";
+
+            var result = CategoriaServicios.Insert(categoria);
+
+            Assert.Equal(1, result);
+        }
+
+        [Fact]
+        public void Categoria_Update_RetornaUno()
+        {
+            Categoria categoria = new();
+            categoria.Id = 9;
+            categoria.Nombre = "Update UnitTest";
+
+            var result = CategoriaServicios.Update(categoria);
+
+            Assert.Equal(1, result);
+        }
+
+        [Fact]
+        public void Categoria_Delete_RetornaUno()
+        {
+            var result = CategoriaServicios.Delete(10);
+
+            Assert.Equal(1, result);
         }
     }
 }
