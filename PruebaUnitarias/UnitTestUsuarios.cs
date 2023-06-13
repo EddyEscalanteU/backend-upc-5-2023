@@ -1,7 +1,10 @@
 ﻿using backend_upc_5_2023.Connection;
+using backend_upc_5_2023.Dominio;
+using backend_upc_5_2023.Servicios;
 
 namespace PruebaUnitarias
 {
+    [TestCaseOrderer("TestOrderExamples.TestCaseOrdering.AlphabeticalOrderer", "TestOrderExamples")]
     public class UnitTestUsuarios
     {
         public UnitTestUsuarios()
@@ -11,9 +14,30 @@ namespace PruebaUnitarias
         }
 
         [Fact]
-        public void Usuarios_Get_VerificarNotNull()
+        public void Usuarios_1_Get_VerificarNotNull()
         {
+            var result = UsuariosServicios.Get<Usuarios>();//un listado
+            Assert.NotNull(result);
+        }
 
+        [Fact]
+        public void Usuarios_2_GetById_RegresaItem()
+        {
+            var result = UsuariosServicios.GetById<Usuarios>(1);
+            Assert.Equal(1, result.Id);
+        }
+
+        [Fact]
+        public void Usuarios_3_Insertar_RetornaUno()
+        {
+            Usuarios usuarios = new();
+            usuarios.NombreCompleto = "NombreCompleto UnitTest";
+            usuarios.UserName = "UserName UnitTest";
+            usuarios.Password = "Password UnitTest";
+
+            var result = UsuariosServicios.Insert(usuarios);
+
+            Assert.Equal(1, result);
         }
     }
 }

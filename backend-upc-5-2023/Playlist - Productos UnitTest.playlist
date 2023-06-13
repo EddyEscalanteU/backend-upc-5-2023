@@ -1,0 +1,36 @@
+<Playlist Version="2.0">
+  <Rule Name="Includes" Match="Any">
+    <Rule Match="All">
+      <Property Name="Solution" />
+      <Rule Match="Any">
+        <Rule Match="All">
+          <Property Name="Project" Value="PruebaUnitarias" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="PruebaUnitarias" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="UnitTestProducto" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="PruebaUnitarias.UnitTestProducto.Producto_Get_VerificarNotNull" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="PruebaUnitarias.UnitTestProducto.Producto_Get_VerificarNotNull" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="PruebaUnitarias.UnitTestProducto.Producto_GetById_RegresaItem" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="PruebaUnitarias.UnitTestProducto.Producto_GetById_RegresaItem" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+      </Rule>
+    </Rule>
+  </Rule>
+</Playlist>
