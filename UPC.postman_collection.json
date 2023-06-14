@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "16f30758-6bf5-42eb-9e06-2bc4957efd49",
+		"name": "UPC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19166873",
+		"_collection_link": "https://geoautomotriz.postman.co/workspace/Team-Workspace~ca61270d-2fcd-432d-8eec-d81c89dd4d66/collection/19166873-16f30758-6bf5-42eb-9e06-2bc4957efd49?action=share&creator=19166873&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44301/api/Categoria",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44301",
+							"path": [
+								"api",
+								"Categoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoriaById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44301/api/Categoria/GetCategoriaById?id=1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44301",
+							"path": [
+								"api",
+								"Categoria",
+								"GetCategoriaById"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Postman categoria\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44301/api/Categoria/AddCategoria",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44301",
+							"path": [
+								"api",
+								"Categoria",
+								"AddCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 10,\r\n    \"nombre\": \"Postman 123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44301/api/Categoria/UpdateCategoria",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44301",
+							"path": [
+								"api",
+								"Categoria",
+								"UpdateCategoria"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44301/api/Categoria/DeleteCategoria?id=26",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44301",
+							"path": [
+								"api",
+								"Categoria",
+								"DeleteCategoria"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "26"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producto",
+			"item": []
+		},
+		{
+			"name": "Usuarios",
+			"item": []
+		},
+		{
+			"name": "HProducto",
+			"item": []
+		},
+		{
+			"name": "CarritoCompra",
+			"item": []
+		}
+	]
+}
