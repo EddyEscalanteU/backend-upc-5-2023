@@ -3,6 +3,7 @@
 using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
 using backend_upc_5_2023.Servicios;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend_upc_5_2023.Controllers
@@ -11,6 +12,7 @@ namespace backend_upc_5_2023.Controllers
     /// Servicios web para la entidad: <see cref="Categoria"/>
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [EnableCors("DevelopmentCors")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriaController : ControllerBase

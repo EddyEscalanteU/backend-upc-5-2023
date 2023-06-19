@@ -1,6 +1,7 @@
 ﻿using backend_upc_5_2023.Connection;
 using backend_upc_5_2023.Dominio;
 using backend_upc_5_2023.Servicios;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 
@@ -10,6 +11,7 @@ namespace backend_upc_5_2023.Controllers
     /// Servicios web para la entidad: <see cref="Usuarios"/>
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [EnableCors("DevelopmentCors")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsuariosController : ControllerBase
