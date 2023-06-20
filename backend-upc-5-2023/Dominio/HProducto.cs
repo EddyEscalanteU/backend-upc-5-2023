@@ -45,7 +45,7 @@ namespace backend_upc_5_2023.Dominio
         /// <value>
         /// The producto.
         /// </value>
-        public Producto Producto { get; set; }
+        public Producto? Producto { get; set; }
 
         /// <summary>
         /// Gets or sets the carrito compra.
@@ -53,6 +53,6 @@ namespace backend_upc_5_2023.Dominio
         /// <value>
         /// The carrito compra.
         /// </value>
-        public CarritoCompra CarritoCompra { get; set; }
+        public CarritoCompra? CarritoCompra { get; set; }
     }
 }

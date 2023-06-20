@@ -37,7 +37,7 @@ namespace backend_upc_5_2023.Dominio
         /// <value>
         /// The productos.
         /// </value>
-        public List<HProducto> Productos { get; set; }
+        public List<HProducto>? Productos { get; set; }
 
         /// <summary>
         /// Gets or sets the usuarios.
@@ -45,6 +45,6 @@ namespace backend_upc_5_2023.Dominio
         /// <value>
         /// The usuarios.
         /// </value>
-        public Usuarios Usuarios { get; set; }
+        public Usuarios? Usuarios { get; set; }
     }
 }

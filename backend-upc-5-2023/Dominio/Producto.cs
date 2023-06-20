@@ -37,6 +37,6 @@ namespace backend_upc_5_2023.Dominio
         /// <value>
         /// The categoria.
         /// </value>
-        public Categoria Categoria { get; set; }
+        public Categoria? Categoria { get; set; }
     }
 }

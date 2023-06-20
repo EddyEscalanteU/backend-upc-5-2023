@@ -66,7 +66,7 @@ namespace backend_upc_5_2023.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetCategoriaById")]
-        public IActionResult GetCategoriaById(int id)
+        public IActionResult GetCategoriaById([FromQuery] int id)
         {
             try
             {
