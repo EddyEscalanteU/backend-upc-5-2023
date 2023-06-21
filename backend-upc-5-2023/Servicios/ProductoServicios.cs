@@ -16,11 +16,18 @@ namespace backend_upc_5_2023.Servicios
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="System.Data.SqlClient.SqlException"></exception>
-        public static IEnumerable<T> Get<T>()
+        public static IEnumerable<Producto> Get()
         {
             const string sql = "SELECT * FROM PRODUCTO WHERE ESTADO_REGISTRO = 1";
 
-            return DBManager.Instance.GetData<T>(sql);
+            var enummerableProductos = DBManager.Instance.GetData<Producto>(sql);
+
+            foreach (var item in enummerableProductos)
+            {
+                item.Categoria = CategoriaServicios.GetById<Categoria>(item.IdCategoria);
+            }
+
+            return enummerableProductos;
         }
 
         /// <summary>
