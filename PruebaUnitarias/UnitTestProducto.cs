@@ -1,5 +1,4 @@
 ﻿using backend_upc_5_2023.Connection;
-using backend_upc_5_2023.Dominio;
 using backend_upc_5_2023.Servicios;
 
 namespace PruebaUnitarias
@@ -15,7 +14,7 @@ namespace PruebaUnitarias
         [Fact]
         public void Producto_Get_VerificarNotNull()
         {
-            var result = ProductoServicios.Get<Producto>();//un listado
+            var result = ProductoServicios.Get();//un listado
             Assert.NotNull(result);
         }
 
